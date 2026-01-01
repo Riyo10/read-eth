@@ -398,6 +398,18 @@ For issues, questions, or suggestions:
 - Check existing documentation
 - Review troubleshooting section
 
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### MIT License
+- ✅ Commercial use
+- ✅ Modification
+- ✅ Distribution
+- ✅ Private use
+- ⚠️ Liability
+- ⚠️ Warranty
+
 ## Acknowledgments
 
 - libcurl - HTTP client library
@@ -407,4 +419,4 @@ For issues, questions, or suggestions:
 
 ---
 
-**Version 1.0.0** | Last Updated: 2025-12-31
+**Version 1.0.0** | Last Updated: 2025-12-31 | Licensed under [MIT](LICENSE)
