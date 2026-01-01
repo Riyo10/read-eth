@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Scanner Terminal</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="terminal-theme">
+    <!-- Terminal Container -->
+    <div class="terminal-container">
+        <!-- Terminal Header -->
+        <div class="terminal-header">
+            <div class="terminal-title">[ NETWORK_SCANNER_v1.0 ]</div>
+            <div class="terminal-buttons">
+                <span class="btn-minimize">_</span>
+                <span class="btn-maximize">□</span>
+                <span class="btn-close">×</span>
+            </div>
+        </div>
+
+        <!-- Terminal Content -->
+        <div class="terminal-content">
+            <!-- System Information Banner -->
+            <div class="terminal-banner">
+                <pre>╔════════════════════════════════════════════════════════════════════╗
+║                    NETWORK DIAGNOSTIC TERMINAL                    ║
+║                   Real-time Network Intelligence                  ║
+║                                                                    ║
+║  Status: ACTIVE | Mode: SCAN | Level: ADMIN                      ║
+╚════════════════════════════════════════════════════════════════════╝</pre>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loadingIndicator" class="terminal-loader hidden">
+                <div class="loader-animation">
+                    <span>█</span><span>█</span><span>█</span>
+                </div>
+                <span class="loader-text">SCANNING NETWORK...</span>
+            </div>
+
+            <!-- Main Terminal Sections -->
+            <div class="terminal-sections">
+                <!-- Network Info Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► NETWORK_INFO</span>
+                        <button id="refreshNetworkBtn" class="btn-refresh-terminal" title="Refresh">↻</button>
+                    </div>
+                    <div class="section-content">
+                        <div class="terminal-line"><span class="label">IPv4</span><span class="separator">.........</span><span id="ipv4" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">IPv6</span><span class="separator">.........</span><span id="ipv6" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Gateway</span><span class="separator">.......</span><span id="gateway" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">DNS1</span><span class="separator">...........</span><span id="dns1" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">DNS2</span><span class="separator">...........</span><span id="dns2" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Interface</span><span class="separator">.......</span><span id="interface" class="value">scanning...</span></div>
+                    </div>
+                </section>
+
+                <!-- Speed Test Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► SPEED_TEST</span>
+                    </div>
+                    <div class="section-content">
+                        <div class="speed-display">
+                            <div class="speed-item"><div class="speed-label">Download</div><div class="speed-value" id="downloadSpeed">0.0</div><div class="speed-unit">Mbps</div></div>
+                            <div class="speed-item"><div class="speed-label">Upload</div><div class="speed-value" id="uploadSpeed">0.0</div><div class="speed-unit">Mbps</div></div>
+                            <div class="speed-item"><div class="speed-label">Ping</div><div class="speed-value" id="pingValue">0.0</div><div class="speed-unit">ms</div></div>
+                        </div>
+                        <button id="startSpeedTestBtn" class="btn-terminal">START_TEST</button>
+                        <div id="speedTestProgress" class="progress-bar hidden"><div id="progressFill" class="progress-fill"></div><span id="progressText" class="progress-text">0%</span></div>
+                    </div>
+                </section>
+
+                <!-- ISP & Location Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► ISP_LOCATION</span>
+                        <button id="refreshISPBtn" class="btn-refresh-terminal" title="Refresh">↻</button>
+                    </div>
+                    <div class="section-content">
+                        <div class="terminal-line"><span class="label">ISP</span><span class="separator">...............</span><span id="ispName" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Country</span><span class="separator">...........</span><span id="country" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">City</span><span class="separator">...............</span><span id="city" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Timezone</span><span class="separator">...........</span><span id="timezone" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Coordinates</span><span class="separator">.........</span><span id="coordinates" class="value">scanning...</span></div>
+                    </div>
+                </section>
+
+                <!-- Network Statistics Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► NET_STATISTICS</span>
+                        <button id="refreshStatsBtn" class="btn-refresh-terminal" title="Refresh">↻</button>
+                    </div>
+                    <div class="section-content">
+                        <div class="terminal-line"><span class="label">Bytes Sent</span><span class="separator">...........</span><span id="bytesSent" class="value">scanning...</span></div>
+                        <div class="terminal-line"><span class="label">Bytes Received</span><span class="separator">.......</span><span id="bytesReceived" class="value">scanning...</span></div>
+                    </div>
+                </section>
+
+                <!-- Open Ports Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► ACTIVE_PORTS</span>
+                    </div>
+                    <div class="section-content">
+                        <div id="portsContainer" class="ports-grid">
+                            <div class="port-item active"><div class="port-number">8080</div><div class="port-status">HTTP</div><div class="port-label">[ACTIVE]</div></div>
+                            <div class="port-item listening"><div class="port-number">22</div><div class="port-status">SSH</div><div class="port-label">[LISTEN]</div></div>
+                            <div class="port-item closed"><div class="port-number">443</div><div class="port-status">HTTPS</div><div class="port-label">[CLOSED]</div></div>
+                            <div class="port-item closed"><div class="port-number">3306</div><div class="port-status">MySQL</div><div class="port-label">[CLOSED]</div></div>
+                            <div class="port-item closed"><div class="port-number">5432</div><div class="port-status">PostgreSQL</div><div class="port-label">[CLOSED]</div></div>
+                            <div class="port-item closed"><div class="port-number">27017</div><div class="port-status">MongoDB</div><div class="port-label">[CLOSED]</div></div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Map Section -->
+                <section class="terminal-section">
+                    <div class="section-header">
+                        <span class="section-title">► GEO_LOCATION</span>
+                    </div>
+                    <div class="section-content map-container">
+                        <div id="map" class="terminal-map">MAP_DATA_UNAVAILABLE</div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Terminal Footer -->
+            <div class="terminal-footer">
+                <span class="footer-text">[ Network Diagnostic Terminal ] - Last Update: <span id="lastUpdate">--:--:--</span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/static/js/api.js"></script>
+    <script src="/static/js/ui.js"></script>
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
